@@ -2,16 +2,19 @@ import tkinter as tk
 from tkinter import Label, Button
 from PIL import Image, ImageTk
 
+# Función para actualizar la calificación seleccionada
 def update_rating(category, value):
     ratings[category] = value
     update_stars(category)
 
+# Función para actualizar la visualización de las estrellas
 def update_stars(category):
     for i in range(5):
         img = star_filled if i < ratings[category] else star_empty
         star_buttons[category][i].config(image=img)
         star_buttons[category][i].image = img
 
+# Función para calcular la propina basada en la calificación del servicio y la comida
 def calculate_tip():
     service = ratings['service']
     food = ratings['food']
@@ -27,6 +30,7 @@ def calculate_tip():
     
     result_label.config(text=f"Propina sugerida: {tip}")
 
+# Configuración de la ventana principal
 root = tk.Tk()
 root.title("Calculadora de Propinas")
 root.geometry("300x400")
@@ -35,10 +39,11 @@ root.geometry("300x400")
 main_frame = tk.Frame(root)
 main_frame.pack(expand=True)
 
+# Diccionario para almacenar las calificaciones de servicio y comida
 ratings = {'service': 0, 'food': 0}
 star_buttons = {'service': [], 'food': []}
 
-# Cargar imágenes de estrellas
+# Cargar imágenes de estrellas llenas y vacías
 star_filled = ImageTk.PhotoImage(Image.open("estrella_llena.jpg").resize((40, 40)))
 star_empty = ImageTk.PhotoImage(Image.open("estrella_vacia.jpg").resize((40, 40)))
 
@@ -62,7 +67,10 @@ for i in range(5):
 
 # Botón para calcular propina
 Button(main_frame, text="Calcular Propina", command=calculate_tip).pack()
+
+# Etiqueta para mostrar la propina sugerida
 result_label = Label(main_frame, text="Propina sugerida: ")
 result_label.pack()
 
+# Iniciar el bucle principal de la interfaz gráfica
 root.mainloop()
